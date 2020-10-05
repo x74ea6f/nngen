@@ -161,6 +161,7 @@ def find_optimal_rshift(visitor, node, filter, bias, scale,
     else:
         _range = round((2 ** node.dtype.width) * range_rate)
 
+    pre_rate = 0.0 ##TMP
     while True:
         rslt = try_rshift(node, input, filter, bias, scale,
                           rshift_mul, rshift_sum, rshift_out)
@@ -173,6 +174,10 @@ def find_optimal_rshift(visitor, node, filter, bias, scale,
         rate = num_overflow / rslt.size
         if rate <= allowed_rate:
             break
+        if pre_rate == rate: ##TMP
+            print(f"Mugen Loop: {rate}") ##TMP
+            break ##TMP
+        pre_rate = rate ##TMP
 
         rshift_out += 1
 

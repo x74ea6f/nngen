@@ -284,8 +284,23 @@ class matmul(conv2d.conv2d):
 
         name = self.__class__.__name__
 
-        args = [arg.eval(memo, input_dict)
-                for arg in self.args]
+        ##TMP print([arg.value for arg in self.args]) ##TMP
+        # print("TMP", len(self.args))
+        args = []
+        for arg in self.args:
+            if arg.value is None:
+                args.append(arg)
+                continue
+            value = []
+            for v in arg.value:
+                if v is not None:
+                    value.append(v)
+            arg.value = value
+            args.append(arg)
+        # print("TMP", len(args))
+
+        ##TMP args = [arg.eval(memo, input_dict)
+        ##TMP         for arg in self.args]
 
         input = args[0]
         filter = args[1]

@@ -41,7 +41,8 @@ def matmul(a, b,
     elif not isinstance(bias, np.ndarray):
         new_bias = np.zeros([c_shape[-1]], dtype=np.int64)
         for i in range(new_bias.shape[-1]):
-            new_bias[i] = bias
+            new_bias[i] = bias.value[i]
+            ##TMP new_bias[i] = bias
         bias = new_bias
     elif len(bias.shape) == 1 and bias.shape[0] == 1:
         new_bias = np.zeros([c_shape[-1]], dtype=np.int64)
@@ -54,7 +55,11 @@ def matmul(a, b,
     elif not isinstance(scale, np.ndarray):
         new_scale = np.zeros([c_shape[-1]], dtype=np.int64)
         for i in range(new_scale.shape[-1]):
-            new_scale[i] = scale
+            if len(scale.value)==1: ##TMP
+                new_scale[i] = scale.value[0] ##TMP
+            else: ##TMP
+                new_scale[i] = scale.value[i] ##TMP
+            ##TMP Pnew_scale[i] = scale.value[i]
         scale = new_scale
     elif len(scale.shape) == 1 and scale.shape[0] == 1:
         new_scale = np.zeros([c_shape[-1]], dtype=np.int64)
